@@ -20,9 +20,10 @@ rad.json
 *.flf
 #Test results file
 TestResults.xml
-.idea
+.idea/
 *.env
 logs/
 .env
 *.xml
 *.iml
+config.py
