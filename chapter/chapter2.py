@@ -2,7 +2,10 @@ from langchain_openai import ChatOpenAI
 from langchain_core.tools import tool
 from langgraph.graph import END, StateGraph, MessagesState
 from langgraph.prebuilt import ToolNode
-from config import  OPENAI_API_KEY,OPENAI_API_BASE
+import os
+from dotenv import load_dotenv
+# 加载 .env 文件中的环境变量，请确保 .env 文件位于当前工作目录下
+load_dotenv()
 
 # ========== 工具定义 ==========
 @tool
@@ -16,17 +19,23 @@ tools = [search]
 tool_node = ToolNode(tools)
 
 # ========== 模型定义 ==========
-# 使用 SiliconFlow 提供的 Qwen 模型
+"""
+bind_tools(tools) 方法至关重要。它将我们定义的工具列表 tools 绑定到
+ChatOpenAI 上，使该对话模型对象知道它可以使用哪些工具，以及如何调用这些工具
+"""
 model = ChatOpenAI(
-    model="Qwen/Qwen2.5-7B-Instruct",
-    api_key=OPENAI_API_KEY,
-    base_url=OPENAI_API_BASE,
+    model="MiniMax/MiniMax-M2.7",
+    api_key=os.getenv("OPENAI_API_KEY"),
+    base_url=os.getenv("OPENAI_API_BASE"),
     temperature=0
-).bind_tools(tools)
+).bind_tools([tools])
 
 # ========== 工作流定义 ==========
 workflow = StateGraph(MessagesState)
 
+"""
+call_model 作为 agent 节点的执行函数。call_model 函数接收当前的状态 state 作为输入，调用语言模型 model 进行推理，并将模型的响应消息添加到状态中
+"""
 def call_model(state):
     """agent节点逻辑：调用模型进行推理"""
     messages = state['messages']
