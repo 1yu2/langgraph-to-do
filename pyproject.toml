@@ -10,6 +10,12 @@ dependencies = [
     "langchain-community>=0.3.31",
     "langchain-openai>=0.3.35",
     "langgraph>=0.6.10",
+    "langgraph-checkpoint-sqlite>=2.0.11",
+    "langgraph-prebuilt>=0.6.4",
+    "langgraph-supervisor>=0.0.29",
+    "langgraph-swarm>=0.0.15",
+    "langmem>=0.0.30",
     "notebook>=7.4.7",
     "python-dotenv>=1.1.1",
+    "trustcall>=0.0.39",
 ]
